@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Favorite Movies</title>
+    <title>Budgeting App</title>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
 </head>
@@ -14,33 +14,57 @@
      <!-- this backdrop has sth to do with alternate between dark & white background -->
     <div id="backdrop"></div>
 
-     <!-- this is a dialog box for entering new item-->
-    <div class="modal" id="add-modal">
+     <!-- this is a dialog box for entering new activity-->
+    <div class="modal" id="submit-modal">
         <div class="modal__content">
-            <label for="item">Shopping Item</label>
-            <input type="text" name="item" id="item" />
+            <div class="radio_select">
+                <input type="radio" name="action_type" id="add" value="Add">
+                <label for="add">Add</label>
+                <input type="radio" name="action_type" id="delete" value="Deltete">
+                <label for="delete">Delete</label>
+            </div>
+            <div class="radio_select">
+                <input type="radio" name="type_of_budget" id="expense" value="Expense">
+                <label for="expense">Expense</label>
+                <input type="radio" name="type_of_budget" id="income" value="Income">
+                <label for="income">Income</label>
+            </div>
+            <label for="date">Date</label>
+            <input type="date" name="date" id="date" />
+            <label for="detail">Details</label>
+            <input type="text" name="detail" id="detail" />
+            <label for="amount">Amount</label>
+            <input type="number" step="0.01" min="0" name="amount" id="amount" />
+
         </div>
         <div class="modal__actions">
             <button class="btn btn--passive">Cancel</button>
-            <button class="btn btn--success">Add</button>
+            <button class="btn btn--success">Submit</button>
         </div>
     </div>
 
 
     <header>
-        <h1>Shopping Invoice Application</h1>
+        <h1>Budgeting Application</h1>
         <div>
-            <button>Add Item</button>
-            <button>Total</button>
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" />
+        </div>
+        <div>
+            <button>Add Budget</button>
+            <button>Show All</button>
         </div>
     </header>
 
     <!-- this 'ul' is where all items will be appended 
     'Your invoice here' will show up when the ul is empty -->
     <main>
+        <!-- <section>
+        </section> -->
         <section id="entry-text" class="card">
-            <p>Your invoice here</p>
+            <p>Recent Activities</p>
         </section>
+        <!-- input username here -->
         <ul id="item-list"></ul>
         <ul id="final-price"></ul>
     </main>
