@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Favorite Movies</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+     <!-- this backdrop has sth to do with alternate between dark & white background -->
+    <div id="backdrop"></div>
+
+     <!-- this is a dialog box for entering new item-->
+    <div class="modal" id="add-modal">
+        <div class="modal__content">
+            <label for="item">Shopping Item</label>
+            <input type="text" name="item" id="item" />
+        </div>
+        <div class="modal__actions">
+            <button class="btn btn--passive">Cancel</button>
+            <button class="btn btn--success">Add</button>
+        </div>
+    </div>
+
+
+    <header>
+        <h1>Shopping Invoice Application</h1>
+        <div>
+            <button>Add Item</button>
+            <button>Total</button>
+        </div>
+    </header>
+
+    <!-- this 'ul' is where all items will be appended 
+    'Your invoice here' will show up when the ul is empty -->
+    <main>
+        <section id="entry-text" class="card">
+            <p>Your invoice here</p>
+        </section>
+        <ul id="item-list"></ul>
+        <ul id="final-price"></ul>
+    </main>
+
+</body>
+
+</html>
