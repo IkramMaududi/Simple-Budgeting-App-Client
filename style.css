@@ -51,7 +51,8 @@ header button:active {
 
 
 
-label {
+label,
+.modal__content p {
     font-weight: bold;
     margin: 0.5rem 0;
     color: #464646;

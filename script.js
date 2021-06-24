@@ -1,23 +1,32 @@
 // parts that are toggled to be hidden & visible
-const submitModal = document.getElementById('submit-modal');
-const backdrop = document.body.firstElementChild;
-const openingText = document.getElementById('entry-text');
+const submitModal = document.getElementById('submit-modal'),
+      backdrop = document.body.firstElementChild,
+      entryText = document.getElementById('entry-text');
 
 
 // buttons that are clickable
-const addItem = document.querySelector('header div button:first-child');
-const showAll = addItem.nextElementSibling;
+const addItem = document.querySelector('header div button:first-child'),
+      showAll = addItem.nextElementSibling;
 
-const cancel = document.querySelector('button');
-const submit = cancel.nextElementSibling;
-
-
-const userInputs = document.querySelectorAll('input');
-
-const listRoot = document.getElementById('item-list');
-const finalNode = document.getElementById('final-price');
+const cancel = document.querySelector('button'),
+      submit = cancel.nextElementSibling;
 
 
+const userInputs = document.querySelectorAll('input'),
+      date = userInputs[2],
+      detail = userInputs[3],
+      amount = userInputs[4],
+      username = userInputs[5];
+
+const listRoot = document.getElementById('item-list'),
+      finalNode = document.getElementById('show-final');
+
+
+const urlSendData = 'http://localhost:3001/user/addition',
+      urlReceiveData = 'http://localhost:3001/user/showall';
+
+
+// this is array that will be shown in the UI
 const items = [];
 
 
@@ -31,7 +40,6 @@ let showAllClicked = false;
  * Then when the item is added by clicking 'add' button in 'add item dialog box', 
  *      the 'add item dialog box' will be hidden & its textbox value is cleared 
  *      the 'main page' will show up where that new item is added
- 
 */
 const addItemHandler = () => {
     if (showAllClicked) {
@@ -41,35 +49,33 @@ const addItemHandler = () => {
         backdrop.classList.toggle('visible');
     };
 };
-// toggle display & hide opening text
-const updateUI = () => {
-    if (items.length === 0) {
-        openingText.style.display = 'block';
-    } else {
-        openingText.style.display = 'none';
-    };
-};
+// // toggle display & hide opening text
+// const updateUI = () => {
+//     if (items.length === 0) {
+//         entryText.style.display = 'block';
+//     } else {
+//         entryText.style.display = 'none';
+//     };
+// };
 
 // clear user's input
 const clearUserInputs = () => {
-    userInputs[0].value = '';
+      date.value = '';
+      detail.value = '';
+      amount.value = '';
 };
 
 
-// show item into main page and update its UI
-const showOutput = (inputData) => {
 
+// this is the function to show recent activities -- only simple add expense / income
+const showRecent = (inputData) => {
     // codes below are to show the processed output on the page
     const newItemList = document.createElement('li');
     newItemList.className = 'item-element';
     newItemList.innerHTML = `
     <div class="item-element__info">
-        <div>${actionType}</div>
-        <div>${typeOfBudget}</div>
-        <div>${date}</div>
-        <div>${detail}</div>
-        <div>${amount}</div>
-    </div>
+        <div>${inputData}</div>
+   </div>
     `;
     listRoot.append(newItemList);
 };
@@ -84,17 +90,55 @@ const showOutput = (inputData) => {
 */
 const submitHandler = () => {
     // assign the entered user values to variables
-    const inputtedItem = userInputs[0].value;
+    let actionType = document.querySelector('input[name="action_type"]:checked').value,
+        inputDate = date.value,
+        inputDetail = detail.value,
+        inputAmount = amount.value,
+        inputUsername = username.value;
 
-    // check if the user entered the right rating value
-    if ( inputtedItem.trim() === '' ) {
-        alert('Please Enter the Right Value');
+    console.log({actionType, da, det, am, user});
+
+    // check if the user entered the right value
+    if ( inputDetail.trim() === '' || inputDate === '' || inputAmount === '' || inputUsername === '') {
+        alert('Please fill the blank(s)');
         return;
     } else {
-        // enter the newly input item data to items array and show it
+        // define the data that want to be sent & shown
         const newItem = { 
-            item: inputtedItem 
+            actionType,
+            inputDate,
+            inputDetail,
+            inputAmount,
+            inputUsername
         };
+
+        // send data to backend first
+        const sendOption = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newItem)
+        };
+        const sendToBackend = async (e) => {
+            e.preventDefault();
+            try {
+                const response = await fetch (urlSendData, sendOption);
+                if (response.data.working) {
+                    console.log(response.data.message);
+                };
+            } catch (err) {
+                console.log(err);
+            };
+        };
+        // other scenario here use fetch synchronously and then show it to screen without using async functionality
+        //
+        //
+        //
+        //
+        //
+
+        // enter the newly input item data to items array and show it
         items.push(newItem);
         console.log(items);
 
@@ -103,23 +147,56 @@ const submitHandler = () => {
         addItemHandler();
 
         // show the added item on the page and toggle 'Your shopping list' display
-        showOutput(newItem.item);
-        updateUI();
+        showRecent(newItem.actionType);
+        // updateUI();
     };
+};
+
+
+
+
+// this is the function to show fetched data from backend
+const fetchedData = () => {
+    fetch(urlReceiveData)
+    .then(res => res.json())
+    .then(data => {
+
+    });
+    //
+    //
+    //
+    //
+    //
+    
+    // codes below are to show the processed output on the page
+    const newItemList = document.createElement('li');
+    newItemList.className = 'item-element';
+    newItemList.innerHTML = `
+    <div class="item-element__info">
+        <div>${actionType}</div>
+        <div>${typeOfBudget}</div>
+        <div>${date}</div>
+        <div>${detail}</div>
+        <div>${amount}</div>
+    </div>
+    `;
+    finalNode.append(newItemList);
 };
 
 const showAllHandler = () => {
     if (showAllClicked) {
         return;
     } else {
-        const finalPrice = document.createElement('li');
-        finalPrice.className = 'final-element';
-        finalPrice.innerHTML = `
-        <div class="final-price">
+        // show data from backend here
+
+        const final = document.createElement('li');
+        final.className = 'final-element';
+        final.innerHTML = `
+        <div class="show-final">
 
         </div>
         `;
-        finalNode.append(finalPrice);
+        finalNode.append(final);
 
         showAllClicked = true;
     };
