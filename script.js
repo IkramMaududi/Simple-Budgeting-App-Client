@@ -208,16 +208,60 @@ const showAllHandler = () => {
             const income = data.dataIncome,
                   expense = data.dataExpense;
             
-            if (income) {
-                // iterate through the array and for each array within, show it to the UI
+            // console.log(income, expense);
+            // console.log(income.length, expense.length);
+
+            // if income or expense have value show them, otherwise show 'no record yet'
+            if (income.length > 0) {
+                // show title first
+                const newItemList = document.createElement('li');
+                newItemList.className = 'item-element';
+                newItemList.innerHTML = `
+                <div class="item-element__info">
+                    <div>Date</div>
+                    <div>Detail</div>
+                    <div>Amount ($)</div>
+                </div>
+                `;
+                showIncome.append(newItemList);
+
+                // iterate through the income array
+                for (const item of income) {
+                    let date, detail, value;
+                    date = item.submitted_date.split('T')[0];
+                    detail = item.item_name;
+                    value = item.amount;
+
+                    showBackEndData('income', date, detail, value);
+                };
             } else {
-                showNoRecord(income);
+                showNoRecord('income');
             };
             
-            if (expense) {
-                // iterate through the array and for each array within, show it to the UI
+            if (expense.length > 0) {
+                // show title first
+                const newItemList = document.createElement('li');
+                newItemList.className = 'item-element';
+                newItemList.innerHTML = `
+                <div class="item-element__info">
+                    <div>Date</div>
+                    <div>Detail</div>
+                    <div>Amount ($)</div>
+                </div>
+                `;
+                showExpense.append(newItemList);
+
+                // iterate through the expense array
+                for (const item of expense) {
+                    let date, detail, value;
+                    date = item.submitted_date.split('T')[0];
+                    detail = item.item_name;
+                    value = item.amount;
+
+                    showBackEndData('expense', date, detail, value);
+                };
             } else {
-                showNoRecord(expense);
+                showNoRecord('expense');
             };
 
         showAllClicked = true;
