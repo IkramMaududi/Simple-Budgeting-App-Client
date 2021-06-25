@@ -1,11 +1,12 @@
 // parts that are toggled to be hidden & visible
 const submitModal = document.getElementById('submit-modal'),
       backdrop = document.body.firstElementChild,
-      entryText = document.getElementById('entry-text');
+      entryText = document.getElementById('entry-text'),
+      finalText = document.getElementById('final-text');
 
 
 // buttons that are clickable
-const addItem = document.querySelector('header div button:first-child'),
+const addItem = document.getElementById('action'),
       showAll = addItem.nextElementSibling;
 
 const cancel = document.querySelector('button'),
@@ -20,7 +21,8 @@ const userInputs = document.querySelectorAll('input'),
 
 const listRoot = document.getElementById('item-list'),
       showIncome = document.getElementById('show-income'),
-      showExpense = showIncome.nextElementSibling;
+      showExpense = document.getElementById('show-expense'),
+      showBalance = document.getElementById('show-balance');
 
 
 const urlSendData = 'http://localhost:3001/user/addition',
@@ -30,11 +32,22 @@ const urlSendData = 'http://localhost:3001/user/addition',
 // this is array that will be shown in the UI
 const items = [];
 
+// initial balance
+let balance = 0;
+
 
 // this is for making the add item & total button not working if the total button has been clicked 
 let showAllClicked = false;
 
+const toggleDisplayHistory = () => {
+    if (!showAllClicked) {
+        finalText.style.display = 'none';
+    } else {
+        finalText.style.display = 'block';
+    };
+};
 
+toggleDisplayHistory();
 /* 
  * This is the main concept of this application UI/UX design
  * This addItemHandler will make 'add item dialog box' visible and overshadow the 'main page' 
@@ -65,7 +78,6 @@ const clearUserInputs = () => {
       detail.value = '';
       amount.value = '';
 };
-
 
 
 // this is the function to show recent activities -- only simple add expense / income
@@ -121,8 +133,6 @@ const submitHandler = () => {
             body: JSON.stringify(newItem)
         };
 
-        // console.log(sendOption);
-
         fetch(urlSendData, sendOption)
         .then(res => res.json())
         .then(data =>  {
@@ -145,11 +155,9 @@ const submitHandler = () => {
 };
 
 
-
-
 // this is the function to show fetched data from backend
 const showBackEndData = (type, date, detail, amount) => {
-        const newItemList = document.createElement('li');
+        let newItemList = document.createElement('li');
         newItemList.className = 'item-element';
         newItemList.innerHTML = `
         <div class="item-element__info">
@@ -166,7 +174,7 @@ const showBackEndData = (type, date, detail, amount) => {
         };
 };
 const showNoRecord = (type) => {
-        const newItemList = document.createElement('li');
+        let newItemList = document.createElement('li');
         newItemList.className = 'item-element';
         newItemList.innerHTML = `
         <div class="item-element__info">
@@ -208,13 +216,14 @@ const showAllHandler = () => {
             const income = data.dataIncome,
                   expense = data.dataExpense;
             
-            // console.log(income, expense);
-            // console.log(income.length, expense.length);
+            // show history now
+            showAllClicked = true;
+            toggleDisplayHistory();
 
             // if income or expense have value show them, otherwise show 'no record yet'
             if (income.length > 0) {
                 // show title first
-                const newItemList = document.createElement('li');
+                let newItemList = document.createElement('li');
                 newItemList.className = 'item-element';
                 newItemList.innerHTML = `
                 <div class="item-element__info">
@@ -232,6 +241,8 @@ const showAllHandler = () => {
                     detail = item.item_name;
                     value = item.amount;
 
+                    balance += value;
+
                     showBackEndData('income', date, detail, value);
                 };
             } else {
@@ -240,7 +251,7 @@ const showAllHandler = () => {
             
             if (expense.length > 0) {
                 // show title first
-                const newItemList = document.createElement('li');
+                let newItemList = document.createElement('li');
                 newItemList.className = 'item-element';
                 newItemList.innerHTML = `
                 <div class="item-element__info">
@@ -258,13 +269,26 @@ const showAllHandler = () => {
                     detail = item.item_name;
                     value = item.amount;
 
+                    balance -= value;
+
                     showBackEndData('expense', date, detail, value);
                 };
             } else {
                 showNoRecord('expense');
             };
 
-        showAllClicked = true;
+
+            // write code for balance here
+            let newItemList = document.createElement('li');
+            newItemList.className = 'item-element';
+            newItemList.innerHTML = `
+            <div class="item-element__info">
+                <div>Total</div>
+                <div>${balance.toFixed(2)}</div>
+            </div>
+            `;
+            showBalance.append(newItemList);
+
         });
     };
 };

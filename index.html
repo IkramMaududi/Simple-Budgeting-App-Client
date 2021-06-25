@@ -37,32 +37,39 @@
         </div>
     </div>
 
-
     <header>
         <h1>Budgeting App</h1>
         <div>
-            <!-- <label for="username">Username</label> -->
             <input type="text" name="username" id="username" placeholder="Input your name here"/>
         </div>
         <div>
-            <button>Choose Activity</button>
+            <button id="action">Add Budget</button>
             <button>Show All</button>
         </div>
     </header>
 
-    <!-- this 'ul' is where all items will be appended 
-    'Your invoice here' will show up when the ul is empty -->
     <main>
-        <!-- <section>
-        </section> -->
         <section id="entry-text" class="card">
             <p>Recent Activities</p>
+            <ul id="item-list"></ul>
         </section>
-        <!-- input username here -->
-        <ul id="item-list"></ul>
-        <!-- <ul id="show-final"></ul> -->
-        <ul id="show-income"></ul>
-        <ul id="show-expense"></ul>
+
+        <div id="final-text" class="card">
+            <h1>Budget History</h1>
+            <div class="card">
+                <h2>Income</h2>
+                <ul id="show-income"></ul>
+            </div>
+            <div class="card">
+                <h2>Expense</h2>
+                <ul id="show-expense"></ul>
+            </div>
+            <div class="card">
+                <h2>Balance</h2>
+                <ul id="show-balance"></ul>
+            </div>
+
+        </div>
     </main>
 
 </body>
