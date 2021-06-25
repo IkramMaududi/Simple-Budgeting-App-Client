@@ -19,7 +19,8 @@ const userInputs = document.querySelectorAll('input'),
       username = userInputs[5];
 
 const listRoot = document.getElementById('item-list'),
-      finalNode = document.getElementById('show-final');
+      showIncome = document.getElementById('show-income'),
+      showExpense = showIncome.nextElementSibling;
 
 
 const urlSendData = 'http://localhost:3001/user/addition',
@@ -96,7 +97,6 @@ const submitHandler = () => {
         inputAmount = amount.value,
         inputUsername = username.value;
 
-    // console.log({actionType, drura, det, am, user});
 
     // check if the user entered the right value
     if ( inputDetail.trim() === '' || inputDate === '' || inputAmount === '' || inputUsername.trim() === '') {
@@ -121,41 +121,25 @@ const submitHandler = () => {
             body: JSON.stringify(newItem)
         };
 
-        console.log(sendOption);
+        // console.log(sendOption);
 
         fetch(urlSendData, sendOption)
         .then(res => res.json())
-        .then(data =>  console.log(data) )
+        .then(data =>  {
+            // console.log(data)
+            let responseMessage = '';
+            if (data.working) {
+                responseMessage = data.message;
 
-        // const sendToBackend = async (e) => {
-        //     e.preventDefault();
-        //     try {
-        //         const response = await fetch (urlSendData, sendOption);
-        //         if (response.data.working) {
-        //             console.log(response.data.message);
-        //         };
-        //     } catch (err) {
-        //         console.log(err);
-        //     };
-        // };
-        // other scenario here use fetch synchronously and then show it to screen without using async functionality
-        //
-        //
-        //
-        //
-        //
+                items.push(responseMessage);
+                showRecent(responseMessage);
+            };
+        });
 
         // clear the inputs in the dialog box, and then close it
         clearUserInputs();
         addItemHandler();
 
-
-        // // enter the newly input item data to items array and show it
-        // items.push(newItem);
-        // console.log(items);
-
-        // // show the added item on the page and toggle 'Your shopping list' display
-        // showRecent(newItem.actionType);
         // updateUI();
     };
 };
@@ -164,36 +148,50 @@ const submitHandler = () => {
 
 
 // this is the function to show fetched data from backend
-const showBackEndData = () => {
-        // // codes below are to show the processed output on the page
-        // const newItemList = document.createElement('li');
-        // newItemList.className = 'item-element';
-        // newItemList.innerHTML = `
-        // <div class="item-element__info">
-        //     <div>${actionType}</div>
-        //     <div>${typeOfBudget}</div>
-        //     <div>${date}</div>
-        //     <div>${detail}</div>
-        //     <div>${amount}</div>
-        // </div>
-        // `;
-        // finalNode.append(newItemList);
-};
+const showBackEndData = (type, date, detail, amount) => {
+        const newItemList = document.createElement('li');
+        newItemList.className = 'item-element';
+        newItemList.innerHTML = `
+        <div class="item-element__info">
+            <div>${date}</div>
+            <div>${detail}</div>
+            <div>${amount}</div>
+        </div>
+        `;
 
+        if (type === 'income') {
+            showIncome.append(newItemList);
+        } else if (type === 'expense') {
+            showExpense.append(newItemList);
+        };
+};
+const showNoRecord = (type) => {
+        const newItemList = document.createElement('li');
+        newItemList.className = 'item-element';
+        newItemList.innerHTML = `
+        <div class="item-element__info">
+            <div>No record yet</div>
+        </div>
+        `;
+        if (type === 'income') {
+            showIncome.append(newItemList);
+        } else if (type === 'expense') {
+            showExpense.append(newItemList);
+        };
+}
 const showAllHandler = () => {
     let inputUsername = username.value;
 
-    // // check if the user entered the right value
-
+    // check if the user entered the right value & this showAll button can only be cliked once 
+    // if it want to be clicked again, the page has to be refreshed 
     if (showAllClicked) {
         return;
     } else if ( inputUsername.trim() === '') {
         alert('Please fill your username');
         return;
     } else {
-        const toSend = { inputUsername };
-
         // send data to backend first
+        const toSend = { inputUsername };
         const sendOption = {
             method: 'POST',
             headers: {
@@ -201,31 +199,29 @@ const showAllHandler = () => {
             },
             body: JSON.stringify(toSend)
         };
-        // console.log(sendOption);
 
         // fetch data from backend
         fetch(urlReceiveData, sendOption)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
-            // const income = data.dataIncome,
-            //     expense = data.dataExpense;
+            // console.log(data);
+            const income = data.dataIncome,
+                  expense = data.dataExpense;
             
-            // if dataIncome or dataExpense don't exist, say "no records yet"
-            // else show the data
+            if (income) {
+                // iterate through the array and for each array within, show it to the UI
+            } else {
+                showNoRecord(income);
+            };
+            
+            if (expense) {
+                // iterate through the array and for each array within, show it to the UI
+            } else {
+                showNoRecord(expense);
+            };
+
+        showAllClicked = true;
         });
-
-        // // show data from backend here
-        // const final = document.createElement('li');
-        // final.className = 'final-element';
-        // final.innerHTML = `
-        // <div class="show-final">
-
-        // </div>
-        // `;
-        // finalNode.append(final);
-
-        // showAllClicked = true;
     };
 };
 
