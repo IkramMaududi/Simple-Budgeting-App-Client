@@ -96,10 +96,10 @@ const submitHandler = () => {
         inputAmount = amount.value,
         inputUsername = username.value;
 
-    console.log({actionType, da, det, am, user});
+    // console.log({actionType, drura, det, am, user});
 
     // check if the user entered the right value
-    if ( inputDetail.trim() === '' || inputDate === '' || inputAmount === '' || inputUsername === '') {
+    if ( inputDetail.trim() === '' || inputDate === '' || inputAmount === '' || inputUsername.trim() === '') {
         alert('Please fill the blank(s)');
         return;
     } else {
@@ -120,17 +120,24 @@ const submitHandler = () => {
             },
             body: JSON.stringify(newItem)
         };
-        const sendToBackend = async (e) => {
-            e.preventDefault();
-            try {
-                const response = await fetch (urlSendData, sendOption);
-                if (response.data.working) {
-                    console.log(response.data.message);
-                };
-            } catch (err) {
-                console.log(err);
-            };
-        };
+
+        console.log(sendOption);
+
+        fetch(urlSendData, sendOption)
+        .then(res => res.json())
+        .then(data =>  console.log(data) )
+
+        // const sendToBackend = async (e) => {
+        //     e.preventDefault();
+        //     try {
+        //         const response = await fetch (urlSendData, sendOption);
+        //         if (response.data.working) {
+        //             console.log(response.data.message);
+        //         };
+        //     } catch (err) {
+        //         console.log(err);
+        //     };
+        // };
         // other scenario here use fetch synchronously and then show it to screen without using async functionality
         //
         //
@@ -138,16 +145,17 @@ const submitHandler = () => {
         //
         //
 
-        // enter the newly input item data to items array and show it
-        items.push(newItem);
-        console.log(items);
-
         // clear the inputs in the dialog box, and then close it
         clearUserInputs();
         addItemHandler();
 
-        // show the added item on the page and toggle 'Your shopping list' display
-        showRecent(newItem.actionType);
+
+        // // enter the newly input item data to items array and show it
+        // items.push(newItem);
+        // console.log(items);
+
+        // // show the added item on the page and toggle 'Your shopping list' display
+        // showRecent(newItem.actionType);
         // updateUI();
     };
 };
@@ -156,49 +164,68 @@ const submitHandler = () => {
 
 
 // this is the function to show fetched data from backend
-const fetchedData = () => {
-    fetch(urlReceiveData)
-    .then(res => res.json())
-    .then(data => {
-
-    });
-    //
-    //
-    //
-    //
-    //
-    
-    // codes below are to show the processed output on the page
-    const newItemList = document.createElement('li');
-    newItemList.className = 'item-element';
-    newItemList.innerHTML = `
-    <div class="item-element__info">
-        <div>${actionType}</div>
-        <div>${typeOfBudget}</div>
-        <div>${date}</div>
-        <div>${detail}</div>
-        <div>${amount}</div>
-    </div>
-    `;
-    finalNode.append(newItemList);
+const showBackEndData = () => {
+        // // codes below are to show the processed output on the page
+        // const newItemList = document.createElement('li');
+        // newItemList.className = 'item-element';
+        // newItemList.innerHTML = `
+        // <div class="item-element__info">
+        //     <div>${actionType}</div>
+        //     <div>${typeOfBudget}</div>
+        //     <div>${date}</div>
+        //     <div>${detail}</div>
+        //     <div>${amount}</div>
+        // </div>
+        // `;
+        // finalNode.append(newItemList);
 };
 
 const showAllHandler = () => {
+    let inputUsername = username.value;
+
+    // // check if the user entered the right value
+
     if (showAllClicked) {
         return;
+    } else if ( inputUsername.trim() === '') {
+        alert('Please fill your username');
+        return;
     } else {
-        // show data from backend here
+        const toSend = { inputUsername };
 
-        const final = document.createElement('li');
-        final.className = 'final-element';
-        final.innerHTML = `
-        <div class="show-final">
+        // send data to backend first
+        const sendOption = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(toSend)
+        };
+        // console.log(sendOption);
 
-        </div>
-        `;
-        finalNode.append(final);
+        // fetch data from backend
+        fetch(urlReceiveData, sendOption)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            // const income = data.dataIncome,
+            //     expense = data.dataExpense;
+            
+            // if dataIncome or dataExpense don't exist, say "no records yet"
+            // else show the data
+        });
 
-        showAllClicked = true;
+        // // show data from backend here
+        // const final = document.createElement('li');
+        // final.className = 'final-element';
+        // final.innerHTML = `
+        // <div class="show-final">
+
+        // </div>
+        // `;
+        // finalNode.append(final);
+
+        // showAllClicked = true;
     };
 };
 
