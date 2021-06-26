@@ -224,9 +224,9 @@ const showAllHandler = () => {
             if (income.length > 0) {
                 // show title first
                 let newItemList = document.createElement('li');
-                newItemList.className = 'item-element';
+                newItemList.className = 'title-element';
                 newItemList.innerHTML = `
-                <div class="item-element__info">
+                <div class="title-element__info">
                     <div>Date</div>
                     <div>Detail</div>
                     <div>Amount ($)</div>
@@ -249,12 +249,13 @@ const showAllHandler = () => {
                 showNoRecord('income');
             };
             
+            // code for expense
             if (expense.length > 0) {
                 // show title first
                 let newItemList = document.createElement('li');
-                newItemList.className = 'item-element';
+                newItemList.className = 'title-element';
                 newItemList.innerHTML = `
-                <div class="item-element__info">
+                <div class="title-element__info">
                     <div>Date</div>
                     <div>Detail</div>
                     <div>Amount ($)</div>
@@ -280,10 +281,10 @@ const showAllHandler = () => {
 
             // write code for balance here
             let newItemList = document.createElement('li');
-            newItemList.className = 'item-element';
+            newItemList.className = 'title-element';
             newItemList.innerHTML = `
-            <div class="item-element__info">
-                <div>Total</div>
+            <div class="title-element__info">
+                <div>Total ($)</div>
                 <div>${balance.toFixed(2)}</div>
             </div>
             `;

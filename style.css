@@ -21,7 +21,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 0 2.5rem;
-    background: #00329e;
+    background: #225f27;
 }
 
 header h1,
@@ -32,6 +32,7 @@ header div label {
 }
 
 header button {
+    /* width: 90%; */
     font: inherit;
     padding: 0.5rem 1rem;
     background: #f67722;
@@ -46,9 +47,8 @@ header button:hover,
 header button:active {
     background: #f3cc4b;
     border-color: #f3cc4b;
-    color: #995200;
+    color: #522d03;
 }
-
 
 
 label,
@@ -112,118 +112,7 @@ input:focus {
     border-color: #ff3217;
 }
 
-.modal {
-    position: fixed;
-    z-index: 100;
-    background: white;
-    border-radius: 10px;
-    width: 80%;
-    top: 30vh;
-    left: 10%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    display: none;
-}
 
-.modal.visible {
-    display: block;
-    animation: fade-slide-in 0.3s ease-out forwards;
-}
-
-.modal .modal__title {
-    margin: 0;
-    padding: 1rem;
-    border-bottom: 1px solid #00329e;
-    background: #00329e;
-    color: white;
-    border-radius: 10px 10px 0 0;
-}
-
-.modal .modal__content {
-    padding: 1rem;
-}
-
-.modal .modal__actions {
-    padding: 1rem;
-    display: flex;
-    justify-content: flex-end;
-}
-
-
-.item-element {
-    /* background-color: lightblue; */
-    width: 600px;
-    margin: 0.2rem auto;
-    /* margin: 1rem 0; */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    border-radius: 10px;
-    /* display: flex;
-    flex-direction: row; */
-}
-.item-element div {
-    /* background-color: lightblue; */
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.25rem;
-    margin: 0;
-    color: #383838;
-}
-.item-element__info {
-    padding: 1rem;
-}
-
-/* this is the styling for totalTax & totalprice */
-.final-element {
-    background-color: lightgrey;
-    width: 700px;
-    margin: auto auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    padding: 1rem;
-}
-.final-element h2 {
-    padding: 3px;
-    font-size: 1.2rem;
-    margin: 0;
-    color: #383838;
-}
-.final-price {
-    /* background-color: lightgreen; */
-    width: 800px;
-}
-.final-price div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-
-.card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-}
-
-#entry-text {
-    width: 40rem;
-    margin: 2rem auto;
-    max-width: 80%;
-    padding: 1rem;
-}
-
-#entry-text p {
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-#item-list {
-    list-style: none;
-    width: 40rem;
-    max-width: 90%;
-    margin: 1rem auto;
-    padding: 0;
-}
 
 #backdrop {
     position: fixed;
@@ -247,11 +136,159 @@ input:focus {
     flex-direction: column;
 }
 
+
+.modal {
+    position: fixed;
+    z-index: 100;
+    background: white;
+    border-radius: 10px;
+    width: 80%;
+    top: 30vh;
+    left: 10%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    display: none;
+}
+.modal.visible {
+    display: block;
+    animation: fade-slide-in 0.3s ease-out forwards;
+}
+.modal .modal__title {
+    margin: 0;
+    padding: 1rem;
+    border-bottom: 1px solid #00329e;
+    background: #00329e;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+.modal .modal__content {
+    padding: 1rem;
+}
+.modal .modal__actions {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.item-element {
+    background-color: lightgrey;
+    text-align: left;
+    width: 60vw;
+    margin: 0.2rem auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+}
+.item-element div {
+    background-color: lightgrey;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    margin: 0;
+    color: #383838;
+}
+.item-element__info {
+    padding: 1rem;
+}
+
+.title-element {
+    background-color: lightblue;
+    width: 60vw;
+    margin: 0.2rem auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+}
+.title-element div {
+    background-color: lightblue;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    margin: 0;
+    color: #383838;
+}
+.title-element__info {
+    padding: 1rem;
+}
+
+
+
+
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#entry-text {
+    width: 80vw;
+    min-height: 20vh;
+    margin: 1rem auto;
+    max-width: 80%;
+    padding: 1rem;
+}
+#entry-text p {
+    font-size: 1rem;
+    text-align: left;
+}
+
+#item-list {
+    list-style: none;
+    width: 40rem;
+    max-width: 70%;
+    margin: 1rem auto;
+    padding: 1rem;
+}
+
+#final-text {
+    width: 80vw;
+    margin: 1rem auto;
+    max-width: 80%;
+    padding: 1rem;
+}
+#final-text div h2 {
+    text-align: center;
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
+#show-income,
+#show-expense,
+#show-balance {
+    list-style: none;
+    padding: 1rem;
+    /* background-color: lightgreen; */
+}
+
+
+
 @media (min-width: 768px) {
     .modal {
         width: 40rem;
         left: calc(50% - 20rem);
     }
+}
+
+@media only screen and (max-width: 655px) {
+    header h1 {
+        font-size: 16px;
+    }
+    header div input {
+        width: 80%
+    }
+
+    header div button {
+        width: 40%;
+        height: 20%;
+        margin: 3px;
+        font-size: 13px;
+    }
+
+    header {
+        height: 8rem;
+    }
+    .select-top {
+        display: flex;
+    }
+
 }
 
 @keyframes fade-slide-in {
